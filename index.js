@@ -4,7 +4,6 @@ import bodyParser from "body-parser";
 import helmet from "helmet";
 import morgan from "morgan";
 import cors from "cors";
-import mongoose from "mongoose";
 import conn from "./db.js";
 
 // CONFIGURATIONS
@@ -24,6 +23,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 //  CORS, tarayıcı güvenliği nedeniyle kaynaklara farklı bir kökten (origin) erişim sağlamanın kontrolünü düzenleyen bir güvenlik önlemidir.
 app.use(cors());
+
+// ROUTES
 
 // MONGOOSE SETUP
 conn();

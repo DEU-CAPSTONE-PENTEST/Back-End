@@ -6,6 +6,8 @@ import morgan from "morgan";
 import cors from "cors";
 import conn from "./db.js";
 
+import authRoute from "./src/routes/authRoute.js";
+
 // CONFIGURATIONS
 dotenv.config();
 const app = express();
@@ -28,6 +30,9 @@ app.use(cors());
 
 // MONGOOSE SETUP
 conn();
+
+//Routes
+app.use("/api/auth", authRoute);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server Port:${PORT}`));

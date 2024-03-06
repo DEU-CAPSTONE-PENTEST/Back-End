@@ -65,3 +65,22 @@ export async function updateUserRepo(id, user) {
     throw new Error(`Error updating user: ${error.message}`);
   }
 }
+
+export async function saveUserUrlId(url) {
+  try {
+    const userId = url.user;
+    const urlId = url._id;
+    const user = await User.findById(userId);
+
+    if (!user) {
+      throw new Error(`User not found`);
+    }
+
+    user.urls.push(urlId);
+    await user.save();
+
+    return "Success";
+  } catch (error) {
+    throw new Error(`Error: ${error.message}`);
+  }
+}

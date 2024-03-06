@@ -7,7 +7,7 @@ import cors from "cors";
 import conn from "./db.js";
 
 import authRoute from "./src/routes/authRoute.js";
-
+import osintRoute from "./src/routes/osintRoute.js";
 // CONFIGURATIONS
 dotenv.config();
 const app = express();
@@ -33,6 +33,6 @@ conn();
 
 //Routes
 app.use("/api/auth", authRoute);
-
+app.use("/api/osint", osintRoute);
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server Port:${PORT}`));

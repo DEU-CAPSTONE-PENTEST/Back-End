@@ -4,12 +4,12 @@ const userSchema = new Schema(
   {
     firstname: {
       type: String,
-      required: [true, "User name is required"],
+      required: [true, "Firstname is required"],
       lowercase: true,
     },
     lastname: {
       type: String,
-      required: [true, "User name is required"],
+      required: [true, "Lastname name is required"],
       lowercase: true,
     },
     email: {
@@ -21,8 +21,14 @@ const userSchema = new Schema(
     password: {
       type: String,
       required: [true, "Password name is required"],
-      minlength: [4, "At least 4 characters"],
+      minlength: [6, "At least 6 characters"],
     },
+    urls: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Url",
+      },
+    ],
   },
   {
     timestamps: true,

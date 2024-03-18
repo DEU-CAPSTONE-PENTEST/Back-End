@@ -28,8 +28,9 @@ export async function onRegister(req, res) {
 
     if (result) {
       res.status(201).json({ result });
+    } else {
+      res.status(400).json({ message: "Register failed" });
     }
-    res.status(400).json({ message: "Register failed" });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -45,7 +46,7 @@ export async function onDelete(req, res) {
     }
     res.status(400).json({ message: "Delete failed" });
   } catch (error) {
-    res.status(500).json({ error });
+    res.status(500).json({ message: error });
   }
 }
 
@@ -61,8 +62,9 @@ export async function onUpdateUser(req, res) {
 
     if (result) {
       res.status(200).json({ message: "Update success" });
+    } else {
+      res.status(400).json({ message: "Update failed" });
     }
-    res.status(400).json({ message: "Update failed" });
   } catch (error) {
     res.status(500).json({ error });
   }

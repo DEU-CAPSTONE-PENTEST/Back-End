@@ -1,5 +1,5 @@
 import pingURL from "../libs/pingURL.js";
-import { getAllOsintRepo } from "../repository/osintRepository.js";
+import { getAllOsintRepo, saveUrlRepo } from "../repository/osintRepository.js";
 import { runOsintScan } from "../utils/runOsintScan.js";
 
 export async function startOsint({ url, user }) {
@@ -11,8 +11,10 @@ export async function startOsint({ url, user }) {
     }
     const parseUrl = new URL(url);
 
+    const saveUrl = await saveUrlRepo({ url, user });
+
     // Initiate background scan
-    runOsintScan({ url, user, parseUrl });
+    runOsintScan({ parseUrl, saveUrl });
 
     return "Request received. OSINT scan initiated."; // Immediate response
   } catch (error) {

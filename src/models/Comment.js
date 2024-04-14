@@ -1,14 +1,9 @@
 import mongoose, { Schema } from "mongoose";
 
-const outPutSchema = new Schema(
+const CommentSchema = new Schema(
   {
     comment: {
       type: String,
-      required: true,
-    },
-    url: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Url",
       required: true,
     },
   },
@@ -17,6 +12,6 @@ const outPutSchema = new Schema(
   }
 );
 
-const OutPut = mongoose.model("OutPut", outPutSchema);
+const Comment = mongoose.model("Comment", CommentSchema);
 
-export default OutPut;
+export default Comment;

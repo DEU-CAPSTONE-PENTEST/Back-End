@@ -6,11 +6,6 @@ const outPutSchema = new Schema(
       type: String,
       required: true,
     },
-    url: {
-      type: mongoose.Schema.Types.ObjectId,
-      required: true,
-      ref: "Url",
-    },
   },
   {
     timestamps: true,

@@ -15,6 +15,12 @@ const urlSchema = new Schema(
     output: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "OutPut",
+      default: null,
+    },
+    comment: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "OutPut",
+      default: null,
     },
   },
   {

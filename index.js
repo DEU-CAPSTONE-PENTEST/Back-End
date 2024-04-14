@@ -20,8 +20,8 @@ app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 
 // morgan: HTTP istekleri hakkında günlük kayıtları tutmak için kullanılır.
 app.use(morgan("common"));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 //  CORS, tarayıcı güvenliği nedeniyle kaynaklara farklı bir kökten (origin) erişim sağlamanın kontrolünü düzenleyen bir güvenlik önlemidir.
 app.use(cors());

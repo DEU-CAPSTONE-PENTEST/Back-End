@@ -2,15 +2,19 @@ import { verifyToken } from "../libs/token.js";
 
 const tokenControll = async (req, res, next) => {
   // Token kontrolü burada yapılır
-  const token = req.headers.authorization.split(" ")[1];
-  if (!token) {
+  const rawToken = req.headers.authorization;
+  if (!rawToken) {
     return res.status(401).json({ error: "Token not provided" });
   }
 
-  const isValidToken = await verifyToken(token);
-  if (isValidToken) {
+  const token = rawToken.split(" ")[1];
+  try {
+    const isValidToken = await verifyToken(token);
+    if (!isValidToken) {
+      return res.status(401).json({ error: "Invalid token" });
+    }
     next();
-  } else {
+  } catch (error) {
     return res.status(401).json({ error: "Invalid token" });
   }
 };

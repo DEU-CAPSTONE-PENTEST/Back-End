@@ -7,8 +7,12 @@ async function generateToken(data) {
   return Promise.resolve(token);
 }
 async function verifyToken(token) {
-  const data = await jwt.verify(token, "secretKey");
-  return data;
+  try {
+    const result = await jwt.verify(token, "secretKey");
+    return result;
+  } catch (error) {
+    throw new Error("Error:", error);
+  }
 }
 
 export { verifyToken, generateToken };

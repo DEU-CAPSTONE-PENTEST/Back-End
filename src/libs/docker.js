@@ -3,6 +3,7 @@ import Docker from "dockerode";
 const docker = new Docker();
 
 export async function runTool(imageName, cmd) {
+  console.log(cmd);
   const containerOptions = {
     Image: imageName,
     Tty: true,
@@ -10,6 +11,7 @@ export async function runTool(imageName, cmd) {
     AttachStdout: true,
     AttachStderr: true,
   };
+
   try {
     // Create the container
     const container = await docker.createContainer(containerOptions);
@@ -49,7 +51,7 @@ export async function runTool(imageName, cmd) {
       // Stop and remove the container
       await container.stop();
     }
-    await container.remove({ force: true });
+    // await container.remove({ force: true });
 
     return output;
   } catch (error) {

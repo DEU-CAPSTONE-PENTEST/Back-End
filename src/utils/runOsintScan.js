@@ -7,59 +7,86 @@ import { startAnalisis } from "../services/commentService.js";
 
 export async function runOsintScan({ parseUrl, saveUrl }) {
   console.log(parseUrl);
-  const [nmap, nuclei] = await Promise.all([
-    runTool("instrumentisto/nmap", ["-A", "-T4", parseUrl.hostname]),
-    // runTool("zungur/pentesttools:nikto", ["-h", parseUrl.origin]),
+
+  const [nmap, theharvester, nuclei] = await Promise.all([
+    runTool("instrumentisto/nmap", ["-A", "-T4", parseUrl.host]),
+    runTool("secsi/theharvester", ["-d", parseUrl.host, "-b", "all"]),
     runTool("projectdiscovery/nuclei", ["-target", parseUrl.origin]),
   ]);
-
   const output =
     "\n#####\n\n PENETRATİON TEST RESULT: \n\n NMAP:" +
     nmap +
-    // "\n\nNICTO:\n" +
-    // nikto +
+    "\n\nTHEHARVESTER:\n" +
+    theharvester +
     " \n#####\n\n" +
     "\n\nNUCLEI:\n" +
     nuclei +
     " \n#####\n\n";
-  if (!nmap && !nuclei) {
-    throw new Error("Output null");
-  }
+
+  console.log(output);
 
   const saveOutput = await saveOutputRepo(output);
   const changeUrl = await saveOutputIdToUrl({
     url: saveUrl,
     output: saveOutput,
   });
-  if (!saveOutput && !saveUrl) {
-    throw new Error("Url and output can not be saved");
-  }
 
   const prompt =
-    "senin görevin aşağıda verilen penetration çıktısını analiz edip. Aşağıda verilen Rapor template düzenle ve json formatında döndür." +
+    "Your task is to come up with the given penetration and analyze it. It returns json format according to the Report template and keys given below. Give me data in {}" +
     output +
     `#####REPORTİNG TAMPLATE:REPORTING_TEMPLATE: {
-  "rapor_tarihi": ,
-  "giris": ,
-  "kullanilan_araclar": ,
-  "bulgular": {
-    
-  },
-  "guvenlik_aciklari": {
-    "kritik": [
-      
+  "raport_date": ,
+  "network_information":[only nmap information will be here],   
+  "findings": {
+    "critical": [
+       {
+        "name": "Self-Signed SSL Certificate",
+        "description": "The SSL certificate on the target system is self-signed, which may indicate that the server is not trusted.",
+        "severity": "critical",
+        "recommendations": [
+          "Replace the self-signed SSL certificate with a certificate from a trusted certificate authority."
+        ],
+        "resources": Give me owasp based resource only one url 
+      },
     ],
-    "orta": [
-      
+    "high":[
+        {
+        "name": "Self-Signed SSL Certificate",
+        "description": "The SSL certificate on the target system is self-signed, which may indicate that the server is not trusted.",
+        "severity": "high",
+        "recommendations": [
+          "Replace the self-signed SSL certificate with a certificate from a trusted certificate authority."
+        ],
+        "resources": Give me owasp based resource only one url 
+
+      },
     ],
-    "dusuk": [
-      
+    "medium": [
+       {
+        "name": "Self-Signed SSL Certificate",
+        "description": "The SSL certificate on the target system is self-signed, which may indicate that the server is not trusted.",
+        "severity": "medium",
+        "recommendations": [
+          "Replace the self-signed SSL certificate with a certificate from a trusted certificate authority."
+        ],
+        "resources": Give me owasp based resource only one url 
+      },
+    ],
+    "low": [
+       {
+        "name": "Self-Signed SSL Certificate",
+        "description": "The SSL certificate on the target system is self-signed, which may indicate that the server is not trusted.",
+        "severity": "low",
+        "recommendations": [
+          "Replace the self-signed SSL certificate with a certificate from a trusted certificate authority."
+        ],
+        "resources": Give me owasp based resource only one url 
+      },
     ]
   },
-  "oneriler": [
   
-  ],
-  "sonuc": "
+ 
+ 
 }#####`;
 
   startAnalisis(prompt, changeUrl);

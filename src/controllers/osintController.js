@@ -8,7 +8,8 @@ export async function onStartOsint(req, res) {
     if (!result) {
       res.status(400).json({ status: "failed" });
     }
-    res.status(201).json({ message: result });
+
+    res.status(201).json({ message: "success" });
   } catch (error) {
     res.status(500).json(error);
   }

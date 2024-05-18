@@ -1,6 +1,6 @@
 import Comment from "../models/Comment.js";
 import OutPut from "../models/Output.js";
-import Url from "../models/Url.js";
+import Url from "../models/URL.js";
 import User from "../models/User.js";
 import { saveUserUrlId } from "./userRepository.js";
 

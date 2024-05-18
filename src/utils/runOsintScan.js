@@ -1,4 +1,5 @@
 import { runTool } from "../libs/docker.js";
+import { runNmap, runTheHarvester, runNuclei } from "../libs/tools.js";
 import {
   saveOutputRepo,
   saveOutputIdToUrl,
@@ -8,11 +9,19 @@ import { startAnalisis } from "../services/commentService.js";
 export async function runOsintScan({ parseUrl, saveUrl }) {
   console.log(parseUrl);
 
-  const [nmap, theharvester, nuclei] = await Promise.all([
+  /*const [nmap, theharvester, nuclei] = await Promise.all([
     runTool("instrumentisto/nmap", ["-A", "-T4", parseUrl.host]),
     runTool("secsi/theharvester", ["-d", parseUrl.host, "-b", "all"]),
     runTool("projectdiscovery/nuclei", ["-target", parseUrl.origin]),
+  ]);*/
+
+    const [nmap, theharvester, nuclei] = await Promise.all([
+    runNmap("-A -T4 " + parseUrl.host),
+    runTheHarvester("-d " + parseUrl.host + " -b all"),
+    runNuclei("-target " + parseUrl.origin),
   ]);
+
+
   const output =
     "\n#####\n\n PENETRATİON TEST RESULT: \n\n NMAP:" +
     nmap +

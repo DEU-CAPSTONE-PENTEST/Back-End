@@ -15,12 +15,11 @@ export async function runOsintScan({ parseUrl, saveUrl }) {
     runTool("projectdiscovery/nuclei", ["-target", parseUrl.origin]),
   ]);*/
 
-    const [nmap, theharvester, nuclei] = await Promise.all([
+  const [nmap, theharvester, nuclei] = await Promise.all([
     runNmap("-A -T4 " + parseUrl.host),
     runTheHarvester("-d " + parseUrl.host + " -b all"),
     runNuclei("-target " + parseUrl.origin),
   ]);
-
 
   const output =
     "\n#####\n\n PENETRATİON TEST RESULT: \n\n NMAP:" +
@@ -45,7 +44,21 @@ export async function runOsintScan({ parseUrl, saveUrl }) {
     output +
     `#####REPORTİNG TAMPLATE:REPORTING_TEMPLATE: {
   "raport_date": ,
-  "network_information":[only nmap information will be here],   
+  "network_information":[
+    {
+      "host": "www.leaderos.net",
+      "ip": "104.21.55.49",
+      "ports": [
+        {
+          "number": 80,
+          "protocol": "tcp",
+          "state": "open",
+          "service": "http",
+          "version": "Cloudflare http proxy"
+        }
+      ]
+    }
+  ],
   "findings": {
     "critical": [
        {
@@ -55,7 +68,7 @@ export async function runOsintScan({ parseUrl, saveUrl }) {
         "recommendations": [
           "Replace the self-signed SSL certificate with a certificate from a trusted certificate authority."
         ],
-        "resources": Give me owasp based resource only one url 
+        "resources": ["Give me owasp based resource only one url"]
       },
     ],
     "high":[
@@ -66,7 +79,7 @@ export async function runOsintScan({ parseUrl, saveUrl }) {
         "recommendations": [
           "Replace the self-signed SSL certificate with a certificate from a trusted certificate authority."
         ],
-        "resources": Give me owasp based resource only one url 
+        "resources": ["Give me owasp based resource only one url"]
 
       },
     ],
@@ -78,7 +91,7 @@ export async function runOsintScan({ parseUrl, saveUrl }) {
         "recommendations": [
           "Replace the self-signed SSL certificate with a certificate from a trusted certificate authority."
         ],
-        "resources": Give me owasp based resource only one url 
+        "resources": ["Give me owasp based resource only one url"]
       },
     ],
     "low": [
@@ -89,13 +102,13 @@ export async function runOsintScan({ parseUrl, saveUrl }) {
         "recommendations": [
           "Replace the self-signed SSL certificate with a certificate from a trusted certificate authority."
         ],
-        "resources": Give me owasp based resource only one url 
+        "resources": ["Give me owasp based resource only one url"]
       },
     ]
   },
-  
- 
- 
+
+
+
 }#####`;
 
   startAnalisis(prompt, changeUrl);
